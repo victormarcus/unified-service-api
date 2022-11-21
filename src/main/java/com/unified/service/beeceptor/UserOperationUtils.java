@@ -1,5 +1,6 @@
 package com.unified.service.beeceptor;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.Environment;
 
 import com.unified.service.common.Constants;
@@ -27,7 +28,7 @@ public class UserOperationUtils {
 	 */
 	public static boolean validateUser(User user, Environment env) throws Exception {
 		String baseUrl = System.getenv(Constants.BASE_URL);//env.getProperty("beeceptor.baseUrl");
-		if (baseUrl == null || baseUrl == "") {
+		if (StringUtils.isBlank(baseUrl)) {
 			throw new UnifiedServiceException("Error Occurred. Empty Base URL");
 		}
 		String endpointPath = env.getProperty("beeceptor.validateEndpoint");

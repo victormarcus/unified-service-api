@@ -11,13 +11,19 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 
+import io.micrometer.core.instrument.util.StringUtils;
 
+/**
+ * Utility class for HTTP related functionality
+ *
+ * @author Abhishek
+ */
 public class HttpUtils {
 
 	public HttpUtils() {
 
 	}
-	
+
 	/**
 	 * Generates request URL
 	 * 
@@ -25,22 +31,29 @@ public class HttpUtils {
 	 * @param basePath The base path
 	 * @param endpointPath the endpoint suffix
 	 * @return the whole request URL
+	 * @throws Exception 
 	 */
-	public static String generateRequestUrl(String protocol, String basePath, String endpointPath) {
+	public static String generateRequestUrl(String protocol, String basePath, String endpointPath) throws Exception {
+		if (StringUtils.isBlank(protocol)) {
+			throw new Exception("Protocol must not be empty");
+		} else if (StringUtils.isBlank(basePath)) {
+			throw new Exception("Basepath must not be empty");
+		}
 		return String.format("%s://%s%s", protocol, basePath, endpointPath);
 	}
-	
+
 	/**
 	 * Forms HTTP post request
 	 * 
-	 * @param dataFormat data format (json, xml)
-	 * @param requestUrl request URL
+	 * @param dataFormat  data format (json, xml)
+	 * @param requestUrl  request URL
 	 * @param requestBody The post request body
 	 * @return The Post Request
 	 * 
 	 * @throws UnsupportedEncodingException
 	 */
-	public static HttpPost getPostRequest(String dataFormat, String requestUrl, String requestBody) throws UnsupportedEncodingException {
+	public static HttpPost getPostRequest(String dataFormat, String requestUrl, String requestBody)
+			throws UnsupportedEncodingException {
 		HttpPost httpPost = new HttpPost(requestUrl);
 		httpPost.setHeader("Content-Type", dataFormat);
 		httpPost.setHeader("Accept", dataFormat);
@@ -62,7 +75,7 @@ public class HttpUtils {
 		if (responseEntity.isPresent()) {
 			return EntityUtils.toString(responseEntity.get());
 		}
-		//TBD CHECK
+		// TBD CHECK
 		return "{}";
 	}
 
