@@ -4,14 +4,13 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
-
-import io.micrometer.core.instrument.util.StringUtils;
 
 /**
  * Utility class for HTTP related functionality
@@ -20,6 +19,8 @@ import io.micrometer.core.instrument.util.StringUtils;
  */
 public class HttpUtils {
 
+	private static int DEFAULT_TIMEOUT_VALUE = 2000;
+	
 	public HttpUtils() {
 
 	}
@@ -77,6 +78,21 @@ public class HttpUtils {
 		}
 		// TBD CHECK
 		return "{}";
+	}
+	
+	/**
+	 * Returns the integer value of the HTTP timeout related environment variable
+	 * 
+	 * @param envVar the variable name
+	 * @return the integer value
+	 */
+	public static int getHttpTimeoutEnvVariable(String envVar) {
+		String value = System.getenv(envVar);
+		if (StringUtils.isNotBlank(value) && StringUtils.isNumeric(value)) {
+			return Integer.parseInt(value);
+		}
+		
+		return DEFAULT_TIMEOUT_VALUE;
 	}
 
 }

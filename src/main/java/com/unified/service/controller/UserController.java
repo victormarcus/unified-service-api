@@ -35,7 +35,6 @@ public class UserController {
 		} else {
 			throw new UnifiedServiceException("User validation failed");
 		}
-		
 	}
 
 }
