@@ -2,6 +2,11 @@ package com.unified.service.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+/**
+ * Utility class for JSON related ops
+ * 
+ * @author Abhishek
+ */
 public class JsonUtils {
 
 	public JsonUtils() {
