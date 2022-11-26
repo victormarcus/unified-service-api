@@ -1,8 +1,6 @@
 package com.unified.service.beeceptor;
 
-import java.io.IOException;
-import java.net.SocketTimeoutException;
-
+import com.unified.service.model.UserModel;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -10,7 +8,6 @@ import org.apache.http.impl.client.HttpClients;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.unified.service.common.Constants;
-import com.unified.service.model.User;
 import com.unified.service.utils.HttpUtils;
 import com.unified.service.utils.JsonUtils;
 
@@ -28,13 +25,13 @@ public class HttpPostClient {
 	
 	private static final String STATUS = "status";
 	
-	public static boolean validateUser(User user, String protocol, String basePath, String endpointPath) throws Exception {
+	public static boolean validateUser(UserModel userModel, String protocol, String basePath, String endpointPath) throws Exception {
 		try {
 			String requestUrl = HttpUtils.generateRequestUrl(protocol, basePath, endpointPath);
 			CloseableHttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(getRequestConfig()).build();
 			
 			CloseableHttpResponse response = httpClient.execute(
-					HttpUtils.getPostRequest(Constants.APPLICATION_JSON, requestUrl, mapper.writeValueAsString(user)));
+					HttpUtils.getPostRequest(Constants.APPLICATION_JSON, requestUrl, mapper.writeValueAsString(userModel)));
 			
 			if (response.getStatusLine().getStatusCode() == 200) {
 				String resBody = HttpUtils.getResponseAsString(response);

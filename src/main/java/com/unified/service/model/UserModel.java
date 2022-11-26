@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class UserModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,12 +37,12 @@ public class User {
 	@Column(name = "role")
 	private Role role;
 	
-	public User() {
+	public UserModel() {
 		
 	}
 
-	public User(String userName, String password, String firstName, 
-			String lastName, String email, String mobile, Role role) {
+	public UserModel(String userName, String password, String firstName,
+					 String lastName, String email, String mobile, Role role) {
 		super();
 		this.userName = userName;
 		this.password = password;
